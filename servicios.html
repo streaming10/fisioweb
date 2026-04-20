@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servicios — Beatriz · Fisioterapia Dermatofuncional · Madrid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────── */
+:root {
+  --bg:       #FDFCF8;
+  --bg2:      #F5F2EC;
+  --fg:       #1A1916;
+  --fg-muted: #6B6558;
+  --gold:     #C9A040;
+  --gold-lt:  #E2BC5E;
+  --gold-bg:  #F9F4E8;
+  --border:   rgba(201,160,64,0.25);
+  --serif:    'Cormorant Garamond', Georgia, serif;
+  --sans:     'DM Sans', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+.gold-line { display: block; width: 48px; height: 1px; background: var(--gold); margin-bottom: 1.5rem; }
+.section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.8rem; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ─── NAV ────────────────────────────────────────── */
+#main-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.5rem 4vw;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; letter-spacing: 0.04em; }
+.nav-logo span { display: block; font-size: 0.62rem; font-family: var(--sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-top: 2px; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.nav-links a { color: var(--fg-muted); transition: color 0.3s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 100%; height: 1px; background: var(--gold); transition: right 0.3s; }
+.nav-links a:hover, .nav-links a.active { color: var(--fg); }
+.nav-links a:hover::after, .nav-links a.active::after { right: 0; }
+.nav-cta { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; padding: 0.7rem 1.6rem; border: 1px solid var(--gold); color: var(--gold); transition: background 0.3s, color 0.3s; }
+.nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+/* ─── PAGE HEADER ────────────────────────────────── */
+#page-header {
+  padding: 16vh 4vw 8vh;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+}
+.ph-left {}
+.breadcrumb {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--fg-muted); margin-bottom: 2rem;
+}
+.breadcrumb a { color: var(--gold); transition: opacity 0.3s; }
+.breadcrumb a:hover { opacity: 0.7; }
+.breadcrumb span { opacity: 0.4; }
+.ph-h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 5vw, 5.5rem);
+  font-weight: 300; line-height: 1.05; letter-spacing: -0.01em;
+}
+.ph-h1 em { font-style: italic; color: var(--gold); }
+.ph-right {
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+.ph-desc {
+  font-size: 0.9rem; line-height: 1.75; color: var(--fg-muted); max-width: 48ch;
+}
+.btn-primary {
+  display: inline-block; background: var(--gold); color: var(--bg);
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 1rem 2.2rem; transition: background 0.3s, transform 0.3s; align-self: flex-start;
+}
+.btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+/* ─── CATEGORY TABS ──────────────────────────────── */
+#category-tabs {
+  display: flex; align-items: center; gap: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 0 4vw;
+  overflow-x: auto;
+}
+.cat-tab {
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 1.2rem 1.8rem; color: var(--fg-muted);
+  border-bottom: 2px solid transparent;
+  cursor: pointer; transition: color 0.3s, border-color 0.3s;
+  white-space: nowrap; background: none; border-top: none; border-left: none; border-right: none;
+  font-family: var(--sans);
+}
+.cat-tab:hover { color: var(--fg); }
+.cat-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ─── SERVICES LAYOUT ────────────────────────────── */
+#services-container {
+  padding: 6rem 4vw 10rem;
+}
+
+/* Featured row */
+.featured-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 1px;
+}
+
+/* Standard rows */
+.standard-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-top: none;
+  margin-bottom: 1px;
+}
+.standard-row:last-child { margin-bottom: 0; }
+
+/* Service card base */
+.svc {
+  background: var(--bg);
+  padding: 2.8rem 2.4rem;
+  display: flex; flex-direction: column; gap: 1rem;
+  position: relative; overflow: hidden;
+  transition: background 0.4s cubic-bezier(0.16,1,0.3,1);
+  cursor: default;
+}
+.svc::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 100%;
+  height: 2px; background: var(--gold);
+  transition: right 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.svc:hover::after { right: 0; }
+.svc:hover { background: var(--gold-bg); }
+
+.svc-num {
+  font-family: var(--serif); font-size: 2.5rem; font-weight: 300;
+  color: var(--border); line-height: 1; transition: color 0.3s;
+}
+.svc:hover .svc-num { color: color-mix(in srgb, var(--gold) 40%, var(--border)); }
+
+.svc-tag {
+  font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500;
+}
+
+.svc-name {
+  font-family: var(--serif); font-size: 1.4rem; font-weight: 400; line-height: 1.2;
+}
+
+.svc-desc {
+  font-size: 0.82rem; line-height: 1.7; color: var(--fg-muted); flex: 1;
+}
+
+.svc-benefits {
+  display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.5rem;
+}
+.svc-benefit {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.78rem; color: var(--fg-muted); line-height: 1.4;
+}
+.svc-benefit::before {
+  content: ''; width: 16px; height: 1px; background: var(--gold);
+  flex-shrink: 0; margin-top: 0.55em;
+}
+
+.svc-link {
+  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); display: flex; align-items: center; gap: 0.4rem;
+  transition: gap 0.3s; margin-top: 0.5rem;
+}
+.svc-link::after { content: '→'; }
+.svc:hover .svc-link { gap: 0.7rem; }
+
+/* Featured card variant */
+.svc.featured {
+  background: var(--gold-bg);
+  border-left: 3px solid var(--gold);
+  padding: 3.5rem 2.8rem;
+}
+.svc.featured:hover { background: color-mix(in srgb, var(--gold) 10%, var(--bg)); }
+.svc.featured .svc-num { color: color-mix(in srgb, var(--gold) 30%, var(--border)); }
+.svc.featured:hover .svc-num { color: var(--gold); }
+
+/* ─── CATEGORY SECTIONS ──────────────────────────── */
+.cat-section { display: none; }
+.cat-section.active { display: block; }
+
+/* ─── CTA BANNER ─────────────────────────────────── */
+#cta-banner {
+  margin: 0 4vw 6rem;
+  border: 1px solid var(--border);
+  padding: 5rem 6rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4rem;
+  background: var(--bg2);
+  position: relative;
+  overflow: hidden;
+}
+#cta-banner::before {
+  content: '"';
+  position: absolute; right: 8rem; top: -1rem;
+  font-family: var(--serif); font-size: 18rem; font-weight: 300;
+  color: var(--border); line-height: 1; pointer-events: none;
+}
+.cta-text {}
+.cta-text h2 {
+  font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: 300; line-height: 1.15; margin-bottom: 1rem;
+}
+.cta-text h2 em { font-style: italic; color: var(--gold); }
+.cta-text p { font-size: 0.88rem; color: var(--fg-muted); max-width: 50ch; line-height: 1.7; }
+.cta-actions { display: flex; flex-direction: column; gap: 1rem; align-items: flex-end; flex-shrink: 0; }
+.btn-ghost {
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--fg-muted); display: flex; align-items: center; gap: 0.5rem;
+  transition: color 0.3s, gap 0.3s;
+}
+.btn-ghost:hover { color: var(--fg); gap: 0.8rem; }
+.btn-ghost::after { content: '→'; }
+
+/* ─── FOOTER ─────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 4vw;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+}
+.footer-logo { font-family: var(--serif); font-size: 1rem; font-weight: 400; }
+.footer-logo span { display: block; font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-top: 2px; }
+.footer-copy { font-size: 0.72rem; color: var(--fg-muted); }
+.footer-links { display: flex; gap: 2rem; list-style: none; }
+.footer-links a { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); transition: color 0.3s; }
+.footer-links a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">
+    Beatriz<br>
+    <span>Fisioterapia Dermatofuncional</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="servicios.html" class="active">Servicios</a></li>
+    <li><a href="index.html#sobre-mi">Sobre mí</a></li>
+    <li><a href="index.html#testimonios">Testimonios</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+  </ul>
+  <a href="index.html#contacto" class="nav-cta">Pide Cita</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<header id="page-header">
+  <div class="ph-left reveal">
+    <nav class="breadcrumb">
+      <a href="index.html">Inicio</a>
+      <span>·</span>
+      <span>Servicios</span>
+    </nav>
+    <h1 class="ph-h1">Tratamientos que<br><em>transforman</em></h1>
+  </div>
+  <div class="ph-right reveal">
+    <p class="ph-desc">Cada tratamiento está diseñado para ofrecer resultados reales, combinando técnicas clínicamente respaldadas con atención personalizada. Desde la recuperación postquirúrgica hasta el rejuvenecimiento estético avanzado.</p>
+    <a href="index.html#contacto" class="btn-primary">Reservar consulta de valoración</a>
+  </div>
+</header>
+
+<!-- CATEGORY TABS -->
+<div id="category-tabs">
+  <button class="cat-tab active" onclick="setCategory('todos', this)">Todos</button>
+  <button class="cat-tab" onclick="setCategory('postquirurgico', this)">Postquirúrgico</button>
+  <button class="cat-tab" onclick="setCategory('facial', this)">Facial</button>
+  <button class="cat-tab" onclick="setCategory('corporal', this)">Corporal</button>
+</div>
+
+<!-- SERVICES -->
+<div id="services-container">
+
+  <!-- TODOS (default) -->
+  <div class="cat-section active" id="cat-todos">
+
+    <!-- Row 1: Fisioterapia en Cirugías (featured) -->
+    <div class="featured-row reveal">
+      <div class="svc featured">
+        <div class="svc-num">01</div>
+        <div class="svc-tag">Cirugía Plástica · Destacado</div>
+        <div class="svc-name">Fisioterapia en<br>Cirugías Plásticas</div>
+        <p class="svc-desc">El acompañamiento fisioterápico integral antes, durante y después de tu cirugía plástica. El protocolo más completo para optimizar resultados estéticos y garantizar una recuperación sin complicaciones.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Reducción de edemas y hematomas</div>
+          <div class="svc-benefit">Prevención de fibrosis y adherencias</div>
+          <div class="svc-benefit">Aceleración del proceso de cicatrización</div>
+          <div class="svc-benefit">Optimización del resultado estético final</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Solicitar información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">02</div>
+        <div class="svc-tag">Preoperatorio</div>
+        <div class="svc-name">Fisioterapia Preoperatoria</div>
+        <p class="svc-desc">La preparación física óptima antes de una cirugía plástica o estética. Trabajamos el tejido, la circulación y el estado general para que tu cuerpo llegue en las mejores condiciones posibles.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Preparación del tejido cutáneo</div>
+          <div class="svc-benefit">Mejora de la circulación local</div>
+          <div class="svc-benefit">Reducción del riesgo de complicaciones</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">03</div>
+        <div class="svc-tag">Postoperatorio</div>
+        <div class="svc-name">Fisioterapia Postoperatoria</div>
+        <p class="svc-desc">Parte esencial del proceso de recuperación tras una intervención estética. Protocolos personalizados desde la primera semana postoperatoria para resultados óptimos y duraderos.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Drenaje de edemas postoperatorios</div>
+          <div class="svc-benefit">Tratamiento de fibrosis y seromas</div>
+          <div class="svc-benefit">Seguimiento personalizado</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="standard-row reveal">
+      <div class="svc">
+        <div class="svc-num">04</div>
+        <div class="svc-tag">Intraoperatorio</div>
+        <div class="svc-name">Fisioterapia Intraquirúrgica</div>
+        <p class="svc-desc">Representando un paso más en la evolución de los cuidados en cirugía plástica, la fisioterapia intraquirúrgica actúa durante la intervención para preparar el tejido y reducir el trauma quirúrgico.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">05</div>
+        <div class="svc-tag">Facial</div>
+        <div class="svc-name">Radiofrecuencia Facial</div>
+        <p class="svc-desc">Reactiva la producción natural de colágeno y elastina, devolviendo a tu rostro vitalidad, luminosidad y firmeza. Resultado visible desde las primeras sesiones, sin dolor ni tiempo de recuperación.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Lifting no invasivo</div>
+          <div class="svc-benefit">Reducción de arrugas y flacidez</div>
+          <div class="svc-benefit">Sin tiempo de recuperación</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">06</div>
+        <div class="svc-tag">Corporal</div>
+        <div class="svc-name">Radiofrecuencia Corporal</div>
+        <p class="svc-desc">Técnica avanzada no invasiva que actúa en las capas profundas de la piel para mejorar la celulitis, la flacidez y la textura cutánea. Resultados progresivos y naturales.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Reducción de celulitis visible</div>
+          <div class="svc-benefit">Mejora de la flacidez</div>
+          <div class="svc-benefit">Remodelado corporal</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="standard-row reveal">
+      <div class="svc">
+        <div class="svc-num">07</div>
+        <div class="svc-tag">Corporal</div>
+        <div class="svc-name">Drenaje Linfático Brasileño</div>
+        <p class="svc-desc">Masaje vigoroso y modelador que combina drenaje y técnicas de contorno para eliminar líquidos retenidos, reducir volumen y mejorar la circulación. Resultados visibles desde la primera sesión.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Reducción inmediata de hinchazón</div>
+          <div class="svc-benefit">Definición de contornos</div>
+          <div class="svc-benefit">Mejora de la celulitis</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">08</div>
+        <div class="svc-tag">Facial · Corporal</div>
+        <div class="svc-name">Microneedling</div>
+        <p class="svc-desc">Técnica mínimamente invasiva que mediante microagujas induce la producción natural de colágeno y elastina, rejuveneciendo la piel y mejorando cicatrices, poros y textura cutánea.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Rejuvenecimiento cutáneo profundo</div>
+          <div class="svc-benefit">Reducción de poros y cicatrices</div>
+          <div class="svc-benefit">Potenciación de activos terapéuticos</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">09</div>
+        <div class="svc-tag">Facial · No Invasivo</div>
+        <div class="svc-name">Plasma Fibroblast</div>
+        <p class="svc-desc">Terapia no quirúrgica que usa energía de plasma para tensar la piel, reducir arrugas, cicatrices y manchas con resultados duraderos comparables a la cirugía, sin bisturí.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Lifting sin cirugía</div>
+          <div class="svc-benefit">Reducción de arrugas y cicatrices</div>
+          <div class="svc-benefit">Resultados duraderos hasta 3 años</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSTQUIRURGICO -->
+  <div class="cat-section" id="cat-postquirurgico">
+    <div class="featured-row reveal">
+      <div class="svc featured">
+        <div class="svc-num">01</div>
+        <div class="svc-tag">Integral · Destacado</div>
+        <div class="svc-name">Fisioterapia en<br>Cirugías Plásticas</div>
+        <p class="svc-desc">El acompañamiento fisioterápico completo — antes, durante y después — para garantizar los mejores resultados estéticos y una recuperación segura y eficaz.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Reducción de edemas y hematomas</div>
+          <div class="svc-benefit">Prevención de fibrosis</div>
+          <div class="svc-benefit">Optimización del resultado final</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Solicitar</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">02</div>
+        <div class="svc-tag">Preoperatorio</div>
+        <div class="svc-name">Fisioterapia Preoperatoria</div>
+        <p class="svc-desc">Prepara tu cuerpo para la intervención con protocolos específicos que mejoran la circulación y condicionan el tejido para minimizar complicaciones.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">03</div>
+        <div class="svc-tag">Postoperatorio</div>
+        <div class="svc-name">Fisioterapia Postoperatoria</div>
+        <p class="svc-desc">Protocolo personalizado desde la primera semana tras la cirugía para acelerar la recuperación y maximizar el resultado estético de la intervención.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+    </div>
+    <div class="standard-row reveal" style="grid-template-columns:1fr 1fr">
+      <div class="svc">
+        <div class="svc-num">04</div>
+        <div class="svc-tag">Intraoperatorio</div>
+        <div class="svc-name">Fisioterapia Intraquirúrgica</div>
+        <p class="svc-desc">Intervención fisioterápica durante la cirugía para preparar el tejido en tiempo real y reducir el trauma quirúrgico desde el primer momento.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">05</div>
+        <div class="svc-tag">Corporal</div>
+        <div class="svc-name">Drenaje Linfático Brasileño</div>
+        <p class="svc-desc">Esencial en la recuperación postoperatoria para eliminar líquidos retenidos, reducir la hinchazón y definir el resultado de la cirugía.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FACIAL -->
+  <div class="cat-section" id="cat-facial">
+    <div class="featured-row reveal">
+      <div class="svc featured">
+        <div class="svc-num">01</div>
+        <div class="svc-tag">Facial · No Invasivo · Destacado</div>
+        <div class="svc-name">Plasma Fibroblast</div>
+        <p class="svc-desc">La alternativa no quirúrgica más eficaz para el rejuvenecimiento facial. Usa energía de plasma controlada para estimular los fibroblastos, tensando la piel con resultados que duran hasta 3 años.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Lifting sin cirugía ni anestesia</div>
+          <div class="svc-benefit">Reducción de párpados caídos</div>
+          <div class="svc-benefit">Mejora de arrugas periorales</div>
+          <div class="svc-benefit">Resultados comparables a blefaroplastia</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Solicitar</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">02</div>
+        <div class="svc-tag">Facial</div>
+        <div class="svc-name">Radiofrecuencia Facial</div>
+        <p class="svc-desc">Estimulación profunda del colágeno y la elastina para un efecto lifting progresivo. Sin dolor, sin tiempo de recuperación, con luminosidad desde la primera sesión.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">03</div>
+        <div class="svc-tag">Facial · Corporal</div>
+        <div class="svc-name">Microneedling</div>
+        <p class="svc-desc">Regeneración cutánea profunda mediante microagujas para mejorar textura, poros, cicatrices y manchas. Potencia la absorción de activos para resultados superiores.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORPORAL -->
+  <div class="cat-section" id="cat-corporal">
+    <div class="featured-row reveal">
+      <div class="svc featured">
+        <div class="svc-num">01</div>
+        <div class="svc-tag">Corporal · Destacado</div>
+        <div class="svc-name">Drenaje Linfático Brasileño</div>
+        <p class="svc-desc">Masaje técnico vigoroso que combina drenaje linfático con modelado corporal. Elimina retención de líquidos, define el contorno y mejora la celulitis con resultados visibles desde la primera sesión.</p>
+        <div class="svc-benefits">
+          <div class="svc-benefit">Resultados visibles en sesión 1</div>
+          <div class="svc-benefit">Definición de contornos corporales</div>
+          <div class="svc-benefit">Reducción de celulitis</div>
+          <div class="svc-benefit">Mejora de la circulación</div>
+        </div>
+        <a href="index.html#contacto" class="svc-link">Solicitar</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">02</div>
+        <div class="svc-tag">Corporal</div>
+        <div class="svc-name">Radiofrecuencia Corporal</div>
+        <p class="svc-desc">Actúa en las capas profundas de la piel para estimular el colágeno y mejorar flacidez, celulitis y textura de forma progresiva y no invasiva.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+      <div class="svc">
+        <div class="svc-num">03</div>
+        <div class="svc-tag">Corporal · Postquirúrgico</div>
+        <div class="svc-name">Fisioterapia Postoperatoria</div>
+        <p class="svc-desc">Tratamiento corporal postoperatorio para eliminar edemas, trabajar la fibrosis y optimizar el resultado final de cualquier cirugía estética corporal.</p>
+        <a href="index.html#contacto" class="svc-link">Más información</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA BANNER -->
+<div id="cta-banner" class="reveal">
+  <div class="cta-text">
+    <h2>¿No sabes qué tratamiento<br>es el más <em>adecuado</em> para ti?</h2>
+    <p>Reserva una consulta de valoración gratuita. Beatriz analizará tu caso y te recomendará el protocolo más adecuado para conseguir los resultados que buscas.</p>
+  </div>
+  <div class="cta-actions">
+    <a href="index.html#contacto" class="btn-primary">Consulta de valoración gratuita</a>
+    <a href="tel:616795487" class="btn-ghost">616 79 54 87</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    Beatriz<br>
+    <span>Fisioterapia Dermatofuncional</span>
+  </div>
+  <p class="footer-copy">© 2026 · Beatriz Dermatofuncional · Madrid</p>
+  <ul class="footer-links">
+    <li><a href="servicios.html">Servicios</a></li>
+    <li><a href="index.html#sobre-mi">Sobre mí</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+  </ul>
+</footer>
+
+<script>
+// Nav scroll
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+// Reveal
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.05 });
+reveals.forEach(el => io.observe(el));
+// Instant reveal for above-fold
+reveals.forEach(el => {
+  const rect = el.getBoundingClientRect();
+  if (rect.top < window.innerHeight * 0.9) {
+    el.style.transition = 'none';
+    el.classList.add('visible');
+    requestAnimationFrame(() => requestAnimationFrame(() => el.style.transition = ''));
+  }
+});
+
+// Category tabs
+function setCategory(cat, btn) {
+  document.querySelectorAll('.cat-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('cat-' + cat).classList.add('active');
+  btn.classList.add('active');
+  // Re-trigger reveals
+  document.querySelectorAll('#cat-' + cat + ' .reveal').forEach(el => {
+    el.classList.remove('visible');
+    el.style.transition = 'none';
+    requestAnimationFrame(() => {
+      el.style.transition = '';
+      setTimeout(() => el.classList.add('visible'), 50);
+    });
+  });
+}
+</script>
+</body>
+</html>
