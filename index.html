@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fisioterapia Dermatofuncional — Beatriz · Madrid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─── DESIGN TOKENS ─────────────────────────────────── */
+:root {
+  --bg:        #FDFCF8;
+  --bg2:       #F5F2EC;
+  --fg:        #1A1916;
+  --fg-muted:  #6B6558;
+  --gold:      #C9A040;
+  --gold-lt:   #E2BC5E;
+  --gold-bg:   #F9F4E8;
+  --border:    rgba(184,151,58,0.25);
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'DM Sans', system-ui, sans-serif;
+  --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* VARIANT B — Crema cálida */
+body.variant-b {
+  --bg:        #F9F5EE;
+  --bg2:       #F0E9DC;
+  --fg:        #2C2418;
+  --fg-muted:  #7A6E5E;
+  --gold:      #C49A38;
+  --gold-lt:   #DDB86A;
+  --border:    rgba(196,154,56,0.3);
+}
+
+/* VARIANT C — Oscuro dramático */
+body.variant-c {
+  --bg:        #14120F;
+  --bg2:       #1E1B16;
+  --fg:        #F5F0E8;
+  --fg-muted:  #9E9484;
+  --gold:      #C9A84C;
+  --gold-lt:   #E0C47A;
+  --gold-bg:   #1E1B14;
+  --border:    rgba(201,168,76,0.2);
+}
+
+/* ─── RESET ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 16px;
+  line-height: 1.6;
+  transition: background 0.5s, color 0.5s;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ─── UTILITY ────────────────────────────────────────── */
+.gold-line {
+  display: block;
+  width: 48px;
+  height: 1px;
+  background: var(--gold);
+  margin-bottom: 1.5rem;
+}
+.section-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── NAV ────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 4vw;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.4s;
+}
+nav.scrolled {
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+.nav-logo span {
+  display: block;
+  font-size: 0.65rem;
+  font-family: var(--sans);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 2px;
+}
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+.nav-links a {
+  color: var(--fg-muted);
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 100%;
+  height: 1px;
+  background: var(--gold);
+  transition: right 0.3s;
+}
+.nav-links a:hover { color: var(--fg); }
+.nav-links a:hover::after { right: 0; }
+.nav-cta {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 0.7rem 1.6rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  transition: background 0.3s, color 0.3s;
+}
+.nav-cta:hover {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+/* ─── HERO ───────────────────────────────────────────── */
+#hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12vh 4vw 8vh;
+  position: relative;
+}
+.hero-eyebrow {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+.hero-h1 {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 5.5vw, 6rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
+  text-wrap: balance;
+}
+.hero-h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-sub {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--fg-muted);
+  max-width: 44ch;
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.btn-primary {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--bg);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 1rem 2.2rem;
+  transition: background 0.3s, transform 0.3s;
+}
+.btn-primary:hover {
+  background: var(--gold-lt);
+  transform: translateY(-1px);
+}
+.btn-ghost {
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.3s, gap 0.3s;
+}
+.btn-ghost:hover { color: var(--fg); gap: 0.8rem; }
+.btn-ghost::after { content: '→'; }
+
+.hero-right {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg2);
+}
+.hero-image-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, var(--bg2) 0%, color-mix(in srgb, var(--gold) 8%, var(--bg2)) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.hero-img-placeholder svg {
+  width: 80px;
+  opacity: 0.2;
+}
+
+/* Decorative vertical text */
+.hero-vertical-text {
+  position: absolute;
+  bottom: 10vh;
+  right: -3px;
+  writing-mode: vertical-rl;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  opacity: 0.5;
+}
+
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 4vw;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.scroll-line {
+  width: 40px;
+  height: 1px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: translateX(-100%);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+/* ─── CREDENTIALS STRIP ──────────────────────────────── */
+#credentials {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2.5rem 4vw;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+}
+.cred-item {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 2rem;
+}
+.cred-item + .cred-item {
+  border-left: 1px solid var(--border);
+}
+.cred-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  color: var(--gold);
+}
+.cred-text strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.cred-text span {
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ─── SERVICES ───────────────────────────────────────── */
+#servicios {
+  padding: 10rem 4vw;
+}
+.section-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+}
+.section-header-left {}
+.section-h2 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.section-h2 em { font-style: italic; color: var(--gold); }
+.section-header-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.section-body {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--fg-muted);
+  max-width: 50ch;
+  margin-bottom: 2rem;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.service-card {
+  background: var(--bg);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: background var(--transition);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 100%;
+  height: 2px;
+  background: var(--gold);
+  transition: right 0.5s var(--transition);
+}
+.service-card:hover::before { right: 0; }
+.service-card:hover { background: var(--gold-bg); }
+
+.service-num {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--border);
+  line-height: 1;
+  transition: color 0.3s;
+}
+.service-card:hover .service-num { color: var(--gold); }
+.service-name {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.service-desc {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--fg-muted);
+  flex: 1;
+}
+.service-link {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: gap 0.3s;
+}
+.service-card:hover .service-link { gap: 0.7rem; }
+.service-link::after { content: '→'; }
+
+/* Wide card */
+.service-card.wide {
+  grid-column: span 2;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 3rem 3rem;
+}
+.service-card.wide .service-content { flex: 1; }
+.service-card.wide .service-visual {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  transition: background 0.3s;
+}
+.service-card.wide:hover .service-visual {
+  background: color-mix(in srgb, var(--gold) 12%, var(--bg2));
+}
+.service-card.wide .service-visual svg {
+  width: 60px;
+  opacity: 0.4;
+}
+
+/* ─── ABOUT ──────────────────────────────────────────── */
+#sobre-mi {
+  padding: 10rem 4vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  align-items: center;
+  background: var(--bg2);
+}
+.about-img-col {
+  position: relative;
+}
+.about-img-frame {
+  aspect-ratio: 3/4;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.about-img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.about-img-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 140px;
+  height: 140px;
+  background: var(--gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  text-align: center;
+  padding: 1rem;
+}
+.about-img-badge strong {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 300;
+  line-height: 1;
+}
+.about-img-badge span {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  opacity: 0.85;
+  line-height: 1.3;
+}
+
+.about-text-col {}
+.about-quote {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.4;
+  font-style: italic;
+  margin-bottom: 2.5rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid var(--gold);
+}
+.about-body {
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--fg-muted);
+  margin-bottom: 2.5rem;
+}
+.about-credentials {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem;
+}
+.about-cred-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+}
+.about-cred-item::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ─── STATS ──────────────────────────────────────────── */
+#stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border);
+}
+.stat-item {
+  padding: 5rem 4vw;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 5vw, 5rem);
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.stat-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ─── TESTIMONIAL ────────────────────────────────────── */
+#testimonios {
+  padding: 10rem 4vw;
+  background: var(--bg2);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8vw;
+  align-items: center;
+}
+.test-label-col {}
+.test-content-col {}
+.testimonial-block {
+  position: relative;
+  padding: 3rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.testimonial-block::before {
+  content: '"';
+  position: absolute;
+  top: -2rem;
+  left: 2.5rem;
+  font-family: var(--serif);
+  font-size: 8rem;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+  opacity: 0.3;
+}
+.testimonial-text {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.author-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg2);
+  flex-shrink: 0;
+}
+.author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.author-name {
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+.author-treatment {
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+/* ─── CONTACT ────────────────────────────────────────── */
+#contacto {
+  padding: 10rem 4vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+}
+.contact-left {}
+.contact-h2 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+.contact-h2 em { font-style: italic; color: var(--gold); }
+.contact-sub {
+  font-size: 0.88rem;
+  color: var(--fg-muted);
+  line-height: 1.75;
+  margin-bottom: 3rem;
+}
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.contact-detail {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.contact-detail-icon {
+  width: 18px;
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.contact-detail-text strong {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 2px;
+}
+.contact-detail-text span, .contact-detail-text a {
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+}
+.contact-detail-text a:hover { color: var(--fg); }
+
+.contact-form-col {}
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.form-group label {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 0;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--fg);
+  outline: none;
+  transition: border-color 0.3s;
+  resize: none;
+  -webkit-appearance: none;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--fg-muted);
+  opacity: 0.5;
+}
+.form-group select option { background: var(--bg); color: var(--fg); }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 4vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.footer-logo {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 400;
+}
+.footer-logo span {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 2px;
+}
+.footer-copy {
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  text-align: center;
+}
+.footer-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.footer-links a {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ─── TWEAKS PANEL ───────────────────────────────────── */
+#tweaks-panel {
+  display: none;
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  min-width: 260px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+}
+#tweaks-panel.open { display: block; }
+#tweaks-panel h3 {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+}
+.tweak-row {
+  margin-bottom: 1rem;
+}
+.tweak-row label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.06em;
+}
+.tweak-options {
+  display: flex;
+  gap: 0.5rem;
+}
+.tweak-btn {
+  flex: 1;
+  padding: 0.5rem 0.3rem;
+  font-size: 0.68rem;
+  font-family: var(--sans);
+  letter-spacing: 0.06em;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tweak-btn.active, .tweak-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-bg);
+}
+</style>
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+<div class="mobile-menu" id="mobile-menu">
+  <ul class="mobile-menu-links">
+    <li><a href="servicios.html">Servicios</a></li>
+    <li><a href="sobre-mi.html">Sobre mí</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
+  </ul>
+  <a href="contacto.html" class="mobile-menu-cta">Pide Cita</a>
+  <div class="mobile-menu-contact">
+    <span>616 79 54 87</span>
+    <a href="mailto:beatriz.dermatofuncional@gmail.com">beatriz.dermatofuncional@gmail.com</a>
+  </div>
+</div>
+
+
+<!-- ─── NAV ─────────────────────────────────────── -->
+<nav id="main-nav">
+  <div class="nav-logo">
+    Beatriz<br>
+    <span>Fisioterapia Dermatofuncional</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#testimonios">Testimonios</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Pide Cita</a>
+<button class="nav-hamburger" id="nav-hamburger" aria-label="Menú" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-left reveal">
+    <div class="hero-eyebrow">Madrid · Fisioterapia Dermatofuncional</div>
+    <h1 class="hero-h1">
+      Donde la ciencia<br>
+      cuida tu <em>piel</em>
+    </h1>
+    <p class="hero-sub">
+      Soy Beatriz, fisioterapeuta especializada en recuperación postquirúrgica, 
+      tratamientos estéticos avanzados y bienestar dermatofuncional. Ciencia 
+      y cuidado personal en cada sesión.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Reservar Consulta</a>
+      <a href="#servicios" class="btn-ghost">Ver Servicios</a>
+    </div>
+    <div class="hero-scroll-indicator">
+      <div class="scroll-line"></div>
+      Descubrir
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-wrap">
+      <div class="hero-img-placeholder">
+        <!-- Placeholder for professional photo of Beatriz -->
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="28" r="16" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10 70c0-16.57 13.43-30 30-30s30 13.43 30 30" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-muted);opacity:0.4">Foto de Beatriz</span>
+      </div>
+    </div>
+    <div class="hero-vertical-text">Fisioterapia · Estética · Bienestar</div>
+  </div>
+</section>
+
+<!-- ─── CREDENTIALS ───────────────────────────────── -->
+<div id="credentials" class="reveal">
+  <div class="cred-item">
+    <svg class="cred-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="6" y="4" width="24" height="28" rx="1" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M12 13h12M12 18h12M12 23h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="18" cy="4" r="3" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+    <div class="cred-text">
+      <strong>Graduada en Fisioterapia</strong>
+      <span>Titulación universitaria oficial</span>
+    </div>
+  </div>
+  <div class="cred-item">
+    <svg class="cred-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="18" r="12" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M18 10v8l5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div class="cred-text">
+      <strong>+5 años de experiencia</strong>
+      <span>En fisioterapia estética y postquirúrgica</span>
+    </div>
+  </div>
+  <div class="cred-item">
+    <svg class="cred-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 6l3 9h9l-7 5 3 9-8-6-8 6 3-9-7-5h9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>
+    <div class="cred-text">
+      <strong>Especialista Dermatofuncional</strong>
+      <span>Formación avanzada y certificada</span>
+    </div>
+  </div>
+  <div class="cred-item">
+    <svg class="cred-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 18c0 6.63 5.37 12 12 12s12-5.37 12-12S24.63 6 18 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M6 10V6h4M13 18l4 4 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="cred-text">
+      <strong>Tecnología Avanzada</strong>
+      <span>Plasma, radiofrecuencia y más</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SERVICIOS ─────────────────────────────────── -->
+<section id="servicios">
+  <div class="section-header">
+    <div class="section-header-left reveal">
+      <span class="section-label">Tratamientos</span>
+      <h2 class="section-h2">Los servicios más<br><em>demandados</em></h2>
+    </div>
+    <div class="section-header-right reveal">
+      <p class="section-body">Cada tratamiento está diseñado para ofrecer resultados reales, combinando técnicas clínicamente respaldadas con un trato personal y cercano.</p>
+      <a href="#contacto" class="btn-ghost">Ver todos los servicios</a>
+    </div>
+  </div>
+
+  <div class="services-grid">
+    <!-- Wide feature card -->
+    <div class="service-card wide reveal">
+      <div class="service-content">
+        <div class="service-num">01</div>
+        <div class="service-name">Fisioterapia en<br>Cirugías Plásticas</div>
+        <p class="service-desc">El tratamiento esencial para optimizar resultados estéticos, acelerar la recuperación y reducir complicaciones como edemas y fibrosis tras la cirugía. Protocolo personalizado desde la primera semana postoperatoria.</p>
+        <a href="#contacto" class="service-link">Solicitar información</a>
+      </div>
+      <div class="service-visual">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 8c12.15 0 22 9.85 22 22S42.15 52 30 52 8 42.15 8 30 17.85 8 30 8z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M20 30c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M30 20v-6M30 46v-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="service-name">Plasma Fibroblast</div>
+      <p class="service-desc">Terapia no quirúrgica que usa energía de plasma para tensar la piel, reducir arrugas y mejorar cicatrices con resultados duraderos.</p>
+      <a href="#contacto" class="service-link">Más información</a>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="service-name">Drenaje Linfático Brasileño</div>
+      <p class="service-desc">Masaje manual intenso que combina drenaje y modelado para eliminar líquidos, reducir volumen y mejorar la celulitis desde la primera sesión.</p>
+      <a href="#contacto" class="service-link">Más información</a>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <div class="service-name">Radiofrecuencia Facial y Corporal</div>
+      <p class="service-desc">Técnica no invasiva que combate la flacidez y el envejecimiento cutáneo estimulando profundamente la producción de colágeno y elastina.</p>
+      <a href="#contacto" class="service-link">Más información</a>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">05</div>
+      <div class="service-name">Microneedling</div>
+      <p class="service-desc">Mediante microagujas, induce la producción natural de colágeno y elastina, rejuveneciendo la piel y mejorando la penetración de activos terapéuticos.</p>
+      <a href="#contacto" class="service-link">Más información</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STATS ─────────────────────────────────────── -->
+<div id="stats">
+  <div class="stat-item reveal">
+    <div class="stat-num" data-count="200">0</div>
+    <div class="stat-label">Pacientes atendidos</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num" data-count="5">0</div>
+    <div class="stat-label">Años de experiencia</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num" data-count="5">0</div>
+    <div class="stat-label">Tratamientos especializados</div>
+  </div>
+</div>
+
+<!-- ─── SOBRE MI ───────────────────────────────────── -->
+<section id="sobre-mi">
+  <div class="about-img-col reveal">
+    <div class="about-img-frame">
+      <!-- Placeholder for Beatriz photo -->
+      <div style="width:100%;height:100%;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" style="color:var(--border)">
+          <circle cx="30" cy="21" r="12" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 52c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--fg-muted);opacity:0.5">Foto de Beatriz</span>
+      </div>
+    </div>
+    <div class="about-img-badge">
+      <strong>5+</strong>
+      <span>Años de<br>experiencia</span>
+    </div>
+  </div>
+  <div class="about-text-col reveal">
+    <span class="section-label">Sobre mí</span>
+    <span class="gold-line"></span>
+    <blockquote class="about-quote">
+      "Une ciencia y belleza para que reflejes tu mejor versión"
+    </blockquote>
+    <p class="about-body">
+      Soy <strong>Beatriz</strong>, Fisioterapeuta Dermatofuncional en Madrid. Me especializo en 
+      tratamientos donde la ciencia de la fisioterapia se une al cuidado integral de la piel. 
+      Mi objetivo es acompañarte en cada etapa de tu proceso — desde la recuperación postquirúrgica 
+      hasta los tratamientos preventivos y de rejuvenecimiento.
+    </p>
+    <p class="about-body">
+      Combino técnicas clínicamente respaldadas con un enfoque humano y cercano, porque creo que 
+      el bienestar real nace de sentirte segura y comprendida en cada sesión.
+    </p>
+    <div class="about-credentials">
+      <div class="about-cred-item">Graduada en Fisioterapia · Universidad acreditada</div>
+      <div class="about-cred-item">Especialista en Fisioterapia Dermatofuncional</div>
+      <div class="about-cred-item">Formación avanzada en plasma fibroblast y radiofrecuencia</div>
+      <div class="about-cred-item">Consultorio en Madrid · Atención presencial y online</div>
+    </div>
+    <a href="#contacto" class="btn-primary">Conocer más · Reservar consulta</a>
+  </div>
+</section>
+
+<!-- ─── TESTIMONIOS ────────────────────────────────── -->
+<section id="testimonios">
+  <div class="test-label-col reveal">
+    <span class="section-label">Testimonios</span>
+    <span class="gold-line"></span>
+    <h2 class="section-h2" style="font-size:clamp(1.8rem,3vw,3rem)">
+      Personas que han<br><em>mejorado</em> su bienestar
+    </h2>
+  </div>
+  <div class="test-content-col reveal">
+    <div class="testimonial-block">
+      <p class="testimonial-text">
+        Fue todo maravilloso. Mi recuperación fue muchísimo más rápida de lo que esperaba 
+        y los resultados superaron todas mis expectativas. Beatriz tiene un trato excepcional 
+        y se nota que sabe exactamente lo que hace.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar">
+          <img src="https://fisiocirugiaplastica.com/wp-content/uploads/2025/10/a75c11d4248c1f123fa9783a78387503.jpeg" alt="Clara González" loading="lazy">
+        </div>
+        <div>
+          <div class="author-name">Clara González</div>
+          <div class="author-treatment">Microneedling · Madrid</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACTO ──────────────────────────────────── -->
+<section id="contacto">
+  <div class="contact-left reveal">
+    <span class="section-label">Contacto</span>
+    <span class="gold-line"></span>
+    <h2 class="contact-h2">
+      Hablemos sobre<br>tu <em>tratamiento</em>
+    </h2>
+    <p class="contact-sub">
+      Estaré encantada de atenderte y resolver cualquier duda. 
+      Escríbeme o llámame — la primera consulta de valoración es sin compromiso.
+    </p>
+    <div class="contact-details">
+      <div class="contact-detail">
+        <svg class="contact-detail-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M9 1.5A6 6 0 0 0 3 7.5c0 3.75 6 9 6 9s6-5.25 6-9a6 6 0 0 0-6-6z" stroke="currentColor" stroke-width="1.2"/>
+          <circle cx="9" cy="7.5" r="1.5" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <div class="contact-detail-text">
+          <strong>Ubicación</strong>
+          <span>Madrid, España</span>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <svg class="contact-detail-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M3 3h12v10.5H3zM3 3l6 6 6-6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="contact-detail-text">
+          <strong>Email</strong>
+          <a href="mailto:beatriz.dermatofuncional@gmail.com">beatriz.dermatofuncional@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <svg class="contact-detail-icon" viewBox="0 0 18 18" fill="none">
+          <path d="M3 3.75A.75.75 0 0 1 3.75 3h2.47l1.5 3.75-1.72 1.72a9 9 0 0 0 3.53 3.53l1.72-1.72 3.75 1.5v2.47a.75.75 0 0 1-.75.75C7.26 15 3 10.74 3 5.25v-1.5z" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        <div class="contact-detail-text">
+          <strong>Teléfono</strong>
+          <a href="tel:616795487">616 79 54 87</a>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <svg class="contact-detail-icon" viewBox="0 0 18 18" fill="none">
+          <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M9 5v4l2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <div class="contact-detail-text">
+          <strong>Horario</strong>
+          <span>Lun–Jue 10:00–22:00 · Vie 10:00–15:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-form-col reveal">
+    <div class="form-group">
+      <label>Nombre completo</label>
+      <input type="text" placeholder="Tu nombre">
+    </div>
+    <div class="form-group">
+      <label>Correo electrónico</label>
+      <input type="email" placeholder="tu@email.com">
+    </div>
+    <div class="form-group">
+      <label>Tratamiento de interés</label>
+      <select>
+        <option value="" disabled selected>Seleccionar tratamiento…</option>
+        <option>Fisioterapia en Cirugías Plásticas</option>
+        <option>Plasma Fibroblast</option>
+        <option>Drenaje Linfático Brasileño</option>
+        <option>Radiofrecuencia Facial y Corporal</option>
+        <option>Microneedling</option>
+        <option>Consulta general</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Mensaje</label>
+      <textarea rows="4" placeholder="Cuéntame qué te gustaría trabajar…"></textarea>
+    </div>
+    <a href="mailto:beatriz.dermatofuncional@gmail.com" class="btn-primary" style="display:inline-block">Enviar mensaje</a>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">
+    Beatriz<br>
+    <span>Fisioterapia Dermatofuncional</span>
+  </div>
+  <p class="footer-copy">© 2025 · Beatriz Dermatofuncional · Madrid</p>
+  <ul class="footer-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</footer>
+
+<!-- ─── TWEAKS PANEL ───────────────────────────────── -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <div class="tweak-row">
+    <label>Paleta de color</label>
+    <div class="tweak-options">
+      <button class="tweak-btn active" onclick="setVariant('a', this)">Blanco</button>
+      <button class="tweak-btn" onclick="setVariant('b', this)">Crema</button>
+      <button class="tweak-btn" onclick="setVariant('c', this)">Oscuro</button>
+    </div>
+  </div>
+  <div class="tweak-row">
+    <label>Intensidad del dorado</label>
+    <div class="tweak-options">
+      <button class="tweak-btn active" onclick="setGold('subtle', this)">Sutil</button>
+      <button class="tweak-btn" onclick="setGold('bold', this)">Intenso</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── NAV SCROLL ────────────────────────────────
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ─── SCROLL REVEAL ─────────────────────────────
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -5% 0px' });
+reveals.forEach(el => io.observe(el));
+// Force-show anything already in viewport instantly (no transition)
+reveals.forEach(el => {
+  const rect = el.getBoundingClientRect();
+  if (rect.top < window.innerHeight * 0.9) {
+    el.style.transition = 'none';
+    el.classList.add('visible');
+    // Re-enable transition after paint so subsequent reveals animate
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      el.style.transition = '';
+    }));
+  }
+});
+
+// ─── COUNTER ANIMATION ─────────────────────────
+const counters = document.querySelectorAll('[data-count]');
+const cio = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      const target = parseInt(el.dataset.count);
+      const suffix = el.dataset.count >= 100 ? '+' : '+';
+      let current = 0;
+      const step = Math.ceil(target / 60);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current + '+';
+        if (current >= target) clearInterval(timer);
+      }, 25);
+      cio.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(el => cio.observe(el));
+
+// ─── TWEAKS ────────────────────────────────────
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "variant": "a",
+  "goldIntensity": "bold"
+}/*EDITMODE-END*/;
+
+function setVariant(v, btn) {
+  document.body.className = v === 'a' ? '' : 'variant-' + v;
+  document.querySelectorAll('.tweak-options')[0].querySelectorAll('.tweak-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { variant: v } }, '*');
+}
+
+function setGold(intensity, btn) {
+  const root = document.documentElement;
+  if (intensity === 'bold') {
+    root.style.setProperty('--gold', '#C9A040');
+    root.style.setProperty('--gold-lt', '#E2BC5E');
+  } else {
+    root.style.removeProperty('--gold');
+    root.style.removeProperty('--gold-lt');
+  }
+  document.querySelectorAll('.tweak-options')[1].querySelectorAll('.tweak-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { goldIntensity: intensity } }, '*');
+}
+
+// Apply saved tweaks on load
+const saved = TWEAK_DEFAULTS;
+if (saved.variant !== 'a') document.body.className = 'variant-' + saved.variant;
+if (saved.goldIntensity === 'bold') {
+  document.documentElement.style.setProperty('--gold', '#C9A040');
+  document.documentElement.style.setProperty('--gold-lt', '#E2BC5E');
+}
+
+// ─── EDIT MODE PROTOCOL ────────────────────────
+window.addEventListener('message', (e) => {
+  if (e.data?.type === '__activate_edit_mode') {
+    document.getElementById('tweaks-panel').classList.add('open');
+  }
+  if (e.data?.type === '__deactivate_edit_mode') {
+    document.getElementById('tweaks-panel').classList.remove('open');
+  }
+});
+window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+// Mobile menu
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('nav-hamburger');
+  const open = menu.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+document.querySelectorAll('.mobile-menu-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('nav-hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+</script>
+</body>
+</html>
